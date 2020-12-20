@@ -77,8 +77,8 @@ WSGI_APPLICATION = 'pangu.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'HOST': 'cn-dy-yd.sakurafrp.com',
+        'PORT': '20507',
         'NAME': 'test2',
         'USER': 'postgres',
         'PASSWORD': '028912',
