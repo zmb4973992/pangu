@@ -65,17 +65,17 @@ class Order(views.View):
 
 
 class Add(views.View):
+    vendor_list = models.Vendor.objects.all()
+
     def get(self, request):
         print(request.POST)
         form = ContactForm()
-        vendor_list = models.Vendor.objects.all()
 
         return render(request, 'add_contact_test.html', locals())
 
     def post(self, request):
         print(request.POST)
         form = ContactForm(request.POST)
-
 
         if form.is_valid():
             # 如果是form里的数据，就到cleaned_data里找；

@@ -18,14 +18,15 @@
 
     <br>
     <form action="{% url 'add' %}" method="post">
-    {% csrf_token %}
+        {% csrf_token %}
         <div class="form-group row">
-            <label for="vendor_id" class="col-md-4 col-form-label"
+
+            <label for="vendor" class="col-md-4 col-form-label"
                    style="text-align:right">{{ form.vendor_id.label }}：</label>
-            <div class="col-md-8" style="text-align:left"><select class="selectpicker" id="vendor_id"
+            <div class="col-md-8" style="text-align:left"><select class="selectpicker" id="vendor"
                                                                   data-live-search="true"
                                                                   title="请选择供应商" data-width="auto" data-size="auto"
-                                                                  data-none-results-text="没有这家供应商">
+                                                                  data-none-results-text="没有这家供应商" name="vendor_id">
                 {% for i in vendor_list %}
                     <option value="{{ i.id }}"
                             data-tokens="{{ i.chinese_full_name }} {{ i.english_full_name }}">{{ i }}</option>
@@ -37,7 +38,7 @@
         <div class="form-group row">
             <label for="name" class="col-md-4 col-form-label" style="text-align:right">{{ form.name.label }}：</label>
             <div class="col-md-4">
-                <input type="text" class="form-control" placeholder="请输入姓名" id="{{ form.name.label }}" name="name">
+                <input type="text" class="form-control" placeholder="请输入姓名" id="name" name="name">
             </div>
             <div class="col-md-4" style="color:red">
                 <h5>{{ form.name.errors.0 }}</h5>
@@ -48,7 +49,7 @@
         <div class="form-group row">
             <label for="department" class="col-md-4 col-form-label" style="text-align:right">{{ form.department.label }}：</label>
             <div class="col-md-4">
-                <input type="text" class="form-control" id="department" placeholder="请输入部门，没有的话可以不填">
+                <input type="text" class="form-control" id="department" placeholder="请输入部门，没有的话可以不填" name="department">
             </div>
         </div>
 
@@ -113,7 +114,7 @@
 
         <fieldset class="form-group">
             <div class="row">
-                <legend class="col-form-label col-md-4 pt-0" style="text-align:right">Radios：</legend>
+                <div class="col-form-label col-md-4 pt-0" style="text-align:right">Radios：</div>
                 <div class="col-md-4">
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1"

@@ -56,7 +56,7 @@ ROOT_URLCONF = 'pangu.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR, 'templates'],
+        'DIRS': [BASE_DIR, "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -119,7 +119,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = '/zmb/'
+STATIC_URL = '/static/'
 # (这里路径可以随便改，因为后面用了load动态加载，后面自动跟着改)
 
 # 使用自定义的UserInformation来管理用户信息表
