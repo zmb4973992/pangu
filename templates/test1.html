@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>bootstrap测试</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
+
+</head>
+<body>
+<div class="container">
+    <br>
+
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">合同信息</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">保函信息</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">催交信息</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">发运信息</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">付款信息</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">交单信息</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">更多功能开发中...</a>
+        </li>
+    </ul>
+
+    <br>
+
+    {% for order_obj in order_list %}
+        <table class="table table-bordered table-hover">
+            <thead>
+            </thead>
+
+            <tbody>
+            <tr>
+                <td class="text-center" style="width: 10%"><b>合同号</b></td>
+                <td style="width:40%">{{ order_obj.short_order_number }}</td>
+                <td class="text-center" style="width: 10%"><b>业主项目号</b></td>
+                <td style="width:40%">{{ order_obj.project_number }}</td>
+            </tr>
+            <tr>
+                <td class="text-center" style="width: 10%"><b>负责人</b></td>
+                <td style="width:40%">{{ order_obj.person_in_charge }}</td>
+                <td class="text-center" style="width: 10%"><b>原产地</b></td>
+                <td style="width:40%">{{ order_obj.country_of_origin }}</td>
+            </tr>
+
+            <tr>
+                <td class="text-center" style="width: 10%"><b>供应商</b></td>
+                <!--优先显示供应商的中文名，没有就显示供应商的英文名-->
+                {% if vendor_obj.chinese_short_name %}
+                    <td style="width:40%">{{ vendor_obj.chinese_short_name }}</td>
+                {% else %}
+                    <td style="width:40%">{{ vendor_obj.english_short_name }}</td>
+                {% endif %}
+
+                <td class="text-center" style="width: 10%"><b>英文设备名称</b></td>
+                <td style="width:40%">{{ order_obj.english_name_of_equipment }}</td>
+            </tr>
+
+            <tr>
+                <td class="text-center" style="width: 10%"><b>中文设备名称</b></td>
+                <td style="width:40%">{{ order_obj.chinese_name_of_equipment }}</td>
+                <td class="text-center" style="width: 10%"><b>PO号</b></td>
+                <td style="width:40%">{{ order_obj.po_number }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-bordered table-hover" style="width:50%">
+            <thead>
+            </thead>
+
+            <tbody>
+            <tr>
+                <td class="text-center" style="width: 10%"><b>PO总金额</b></td>
+                <td class="text-right" style="width:15%;text-align:right">{{ order_obj.amount_of_po }}</td>
+                <td class="text-center" style="width:8%">{{ order_obj.currency_of_po }}</td>
+            </tr>
+            <tr>
+                <td class="text-center" style="width: 10%"><b>中文合同金额</b></td>
+                <td class="text-right" style="width:15%;text-align:right">{{ order_obj.amount_of_chinese_order }}</td>
+                <td class="text-center" style="width:8%">{{ order_obj.currency_of_chinese_order }}</td>
+            </tr>
+            <tr>
+                <td class="text-center" style="width: 10%"><b>运费</b></td>
+                <td class="text-right" style="width:15%;text-align:right">{{ order_obj.amount_of_freight }}</td>
+                <td class="text-center" style="width:8%">{{ order_obj.currency_of_freight }}</td>
+
+
+            </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-bordered  table-hover">
+            <thead>
+            </thead>
+
+            <tbody>
+            <tr>
+                <td class="text-center" style="width: 10%"><b>是否需要<br>预付款保函</b></td>
+                <td style="width:40%">{{ order_obj.apg_is_needed }}</td>
+                <td class="text-center" style="width: 10%"><b>MR号</b></td>
+                <td style="width:40%">{{ order_obj.mr_number }}</td>
+            </tr>
+            <tr>
+                <td class="text-center" style="width: 10%"><b>是否需要履约保函</b></td>
+                <td style="width:40%">{{ order_obj.pg_is_needed }}</td>
+                <td class="text-center" style="width: 10%"><b>PO发给业主的日期</b></td>
+                <td style="width:40%">{{ order_obj.date_of_sending_order_to_vendor }}</td>
+            </tr>
+
+            <tr>
+                <td class="text-center" style="width: 10%"><b>合同生效条件</b></td>
+                <td style="width:40%">{{ order_obj.condition_of_coming_into_effectiveness }}</td>
+                <td class="text-center" style="width: 10%"><b>po签字日期</b></td>
+                <td style="width:40%">{{ order_obj.po_signing_date }}</td>
+            </tr>
+
+            <tr>
+                <td class="text-center" style="width: 10%"><b>是否已取消</b></td>
+                <td style="width:40%">{{ order_obj.is_canceled }}</td>
+                <td class="text-center" style="width: 10%"><b>给业主/分包商的注释</b></td>
+                <td style="width:40%">{{ order_obj.comment_for_first_party }}</td>
+            </tr>
+
+            <tr>
+                <td class="text-center" style="width: 10%"><b>是否转让给瑞程</b></td>
+                <td style="width:40%">{{ order_obj.is_transferred_to_r }}</td>
+                <td class="text-center" style="width: 10%"><b>备注</b></td>
+                <td style="width:40%">{{ order_obj.remark }}</td>
+            </tr>
+            </tbody>
+        </table>
+    {% endfor %}
+
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+{#<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>#}
+</body>
+</html>

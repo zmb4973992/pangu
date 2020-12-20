@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>bootstrap测试</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
+
+</head>
+<body>
+<div class="container">
+    <table class="table table-hover table-borderless" style="margin-bottom: 25px;">
+        <thead>
+        <tr class="table table-active">
+            <th>合同号</th>
+            <th>供应商</th>
+            <th>负责人</th>
+            <th>客户类型</th>
+            <th>原产地</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            {% for i in order %}
+                <td>{{ i.short_order_number }}</td>
+                <td>{{ i.vendor_id }}</td>
+                <td>{{ i.person_in_charge }}</td>
+                <td>{{ i.client_type }}</td>
+                <td>{{ i.country_of_origin }}</td>
+            {% endfor %}
+        </tr>
+        </tbody>
+    </table>
+    <table class="table table-hover table-borderless" style="margin-bottom: 25px;">
+        <thead>
+        <tr class="table table-active">
+            <th>设备中文名称</th>
+            <th>设备英文名称</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            {% for i in order %}
+                <td>{{ i.chinese_name_of_equipment }}</td>
+                <td>{{ i.english_name_of_equipment }}</td>
+            {% endfor %}
+        </tr>
+        </tbody>
+    </table>
+    <table class="table table-hover table-borderless" style="margin-bottom: 25px;">
+        <thead>
+        <tr class="table table-active">
+            <th style="width: 15%">业主项目号</th>
+            <th>PO号</th>
+            <th>MR号</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            {% for i in order %}
+                <td style="width: 15%">{{ i.project_number }}</td>
+                <td>{{ i.po_number }}</td>
+                <td>{{ i.mr_number }}</td>
+            {% endfor %}
+        </tr>
+        </tbody>
+    </table>
+    <table class="table table-hover table-borderless" style="margin-bottom: 25px;">
+        <thead>
+        <tr class="table table-active">
+            <th>PO总金额</th>
+            <th>货币</th>
+            <th>中文合同总金额</th>
+            <th>货币</th>
+            <th>运费金额</th>
+            <th>货币</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            {% for i in order %}
+                <td>{{ i.amount_of_po }}</td>
+                <td>{{ i.currency_of_po }}</td>
+                <td>{{ i.amount_of_chinese_order }}</td>
+                <td>{{ i.currency_of_chinese_order }}</td>
+                <td>{{ i.amount_of_freight }}</td>
+                <td>{{ i.currency_of_freight }}</td>
+            {% endfor %}
+        </tr>
+        </tbody>
+    </table>
+    <table class="table table-hover table-borderless" style="margin-bottom: 25px;width:80%">
+        <thead>
+        <tr class="table table-active">
+            <th style="width:20%">是否需要预付款保函？</th>
+            <th style="width:20%">是否需要履约保函？</th>
+            <th style="width:20%">合同生效条件</th>
+            <th style="width:20%">质保期(月)</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            {% for i in order %}
+                <td>{{ i.apg_is_needed }}</td>
+                <td>{{ i.pg_is_needed }}</td>
+                <td>{{ i.condition_of_coming_into_effectiveness }}</td>
+                <td>{{ i.guarantee_period }}</td>
+            {% endfor %}
+        </tr>
+        </tbody>
+    </table>
+    <table class="table table-hover table-borderless" style="margin-bottom: 25px;width:70%">
+        <thead>
+        <tr class="table table-active">
+            <th style="width:20%">将PO发给供应商的日期</th>
+            <th style="width:20%">PO签字日期</th>
+            <th style="width:20%">PO生效日期</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            {% for i in order %}
+                <td>{{ i.date_of_sending_order_to_vendor }}</td>
+                <td>{{ i.po_signing_date }}</td>
+                <td>{{ i.date_of_coming_into_effectiveness }}</td>
+            {% endfor %}
+        </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-hover table-borderless" style="margin-bottom: 25px;width:70%">
+        <thead>
+        <tr class="table table-active">
+            <th style="width:20%">合同是否已取消？</th>
+            <th style="width:20%">合同是否已转让给瑞程？</th>
+            <th style="width:20%">给业主/分包商看的注释</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            {% for i in order %}
+                <td>{{ i.is_canceled }}</td>
+                <td>{{ i.is_transferred_to_r }}</td>
+                <td>{{ i.comment_for_first_party }}</td>
+            {% endfor %}
+        </tr>
+        </tbody>
+    </table>
+    <table class="table table-hover table-borderless" style="margin-bottom: 25px;width:100%">
+        <thead>
+        <tr class="table table-active">
+            <th style="width:20%">合同备注</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            {% for i in order %}
+                <td>{{ i.remark }}</td>
+
+            {% endfor %}
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
