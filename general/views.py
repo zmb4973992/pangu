@@ -65,20 +65,35 @@ class Order(views.View):
 
 
 class Add(views.View):
-    vendor_list = models.Vendor.objects.all()
+
+    # 重写vendor_id的取值方法(只能用于choice，因为是iterable)
+    def get_vendorid(self, request):
+        r = []
+        for obj in models.Vendor.objects.all():
+            if obj.chinese_short_name:
+                r += [(obj.id, obj.chinese_short_name + '--' + obj.chinese_full_name)]
+            else:
+                r += [(obj.id, obj.english_short_name + '--' + obj.english_full_name)]
+
+        return r
 
     def get(self, request):
         print(request.POST)
         form = ContactForm()
+        # vendor_list = models.Vendor.objects.all()
+        form.fields['vendor_id'].choices = self.get_vendorid(request)
 
         return render(request, 'add_contact_test.html', locals())
 
     def post(self, request):
         print(request.POST)
         form = ContactForm(request.POST)
+        form.fields['vendor_id'].choices = self.get_vendorid(request)
+        vendor_list = models.Vendor.objects.all()
 
         if form.is_valid():
             # 如果是form里的数据，就到cleaned_data里找；
+            # 如果没有经过form验证，就直接从request.POST里取；
             name = form.cleaned_data.get('name')
             department = form.cleaned_data.get('department')
             title = form.cleaned_data.get("title")
@@ -87,12 +102,12 @@ class Add(views.View):
             email = form.cleaned_data.get("email")
             qq = form.cleaned_data.get('qq')
             wechat = form.cleaned_data.get('wechat')
-            # 如果没有经过form验证，就直接从request.POST里取；
-            vendor_id = request.POST.get('vendor_id')
+            vendor_id = form.cleaned_data.get('vendor_id')
             remark = form.cleaned_data.get('remark')
-            print(vendor_id)
-            # models.Contact.objects.create(name=name,  vendor_id=vendor_id)
-            return HttpResponse('post成功')
+            models.Contact.objects.create(name=name, department=department, title=title, landline=landline,
+                                          mobile=mobile, email=email, qq=qq, wechat=wechat, vendor_id=vendor_id,
+                                          remark=remark)
+            return HttpResponse(form.cleaned_data.get('email'))
 
         else:
             return render(request, 'add_contact_test.html', locals())

@@ -1,8 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from simple_history.models import HistoricalRecords
 
+from simple_history import register
+from django.contrib.auth.models import User
 
-# Create your models here.
+register(User)
 
 
 # 供应商信息
@@ -28,7 +31,7 @@ class Vendor(models.Model):
 # 供应商联系人信息
 class Contact(models.Model):
     name = models.CharField(max_length=20, verbose_name='姓名')
-    department = models.CharField(max_length=20, verbose_name='部门', blank=True, null=True)
+    department = models.CharField(max_length=20, verbose_name='部门', null=True)
     title = models.CharField(max_length=20, verbose_name='职务', blank=True, null=True)
     landline = models.CharField(max_length=20, verbose_name='座机号', blank=True, null=True)
     mobile = models.CharField(max_length=15, verbose_name='手机号', blank=True, null=True)
@@ -39,6 +42,7 @@ class Contact(models.Model):
     created_time = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)
     remark = models.TextField(max_length=500, verbose_name='备注', default='无')
+    history = HistoricalRecords()
 
     class Meta:
         verbose_name = '供应商联系人信息'

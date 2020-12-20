@@ -9,16 +9,27 @@ from general import models
 #         raise ValidationError('没有这个name值')
 
 class ContactForm(forms.Form):
-    name = forms.CharField(label='姓名', error_messages={'required': '必须填写姓名'})
-    vendor_id = forms.CharField(label='供应商', required=True, error_messages={'required': '必须选择供应商'})
-    department = forms.CharField(label='部门', required=False)
-    title = forms.CharField(max_length=20, label='职务', required=False)
-    landline = forms.CharField(max_length=20, label='座机号', required=False)
-    mobile = forms.CharField(max_length=15, label='手机号', required=False)
-    email = forms.EmailField(max_length=30, label='邮箱', required=False)
-    qq = forms.CharField(max_length=20, required=False)
-    wechat = forms.CharField(max_length=25, label='微信', required=False)
-    remark = forms.CharField(label='备注', widget=forms.Textarea, required=False)
+    name = forms.CharField(label='姓名', error_messages={'required': '请填写姓名'})
+    vendor_id = forms.ChoiceField(label='供应商', required=True, error_messages={'required': '请选择对应的供应商'})
+
+    department = forms.CharField(label='部门', required=False,
+                                 widget=forms.TextInput(
+                                     attrs={'class': 'form-control', 'placeholder': '请填写部门，没有的话可以不填'}))
+    title = forms.CharField(max_length=20, label='职务', required=False,
+                            widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '请填写职务，没有的话可以不填'}))
+    landline = forms.CharField(max_length=20, label='座机号', required=False,
+                               widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '请填写座机，没有的话可以不填'}))
+    mobile = forms.CharField(max_length=15, label='手机号', required=False,
+                             widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '请输入手机号码，没有的话可以不填'}))
+    email = forms.EmailField(max_length=30, label='邮箱', required=False,
+                             widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '请填写邮箱，没有的话可以不填'}))
+    qq = forms.CharField(max_length=20, required=False,
+                         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '请填写QQ，没有的话可以不填'}))
+    wechat = forms.CharField(max_length=25, label='微信', required=False,
+                             widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '请填写微信，没有的话可以不填'}))
+    remark = forms.CharField(label='备注', required=False,
+                             widget=forms.Textarea(
+                                 attrs={'class': 'form-control', 'placeholder': '请填写备注，没有的话可以不填', 'rows': '2'}))
 
     def clean_name(self):
 
