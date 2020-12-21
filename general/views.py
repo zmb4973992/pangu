@@ -107,7 +107,7 @@ class Add(views.View):
             models.Contact.objects.create(name=name, department=department, title=title, landline=landline,
                                           mobile=mobile, email=email, qq=qq, wechat=wechat, vendor_id=vendor_id,
                                           remark=remark)
-            return HttpResponse(form.cleaned_data.get('email'))
+            return HttpResponse('添加成功')
 
         else:
             return render(request, 'add_contact_test.html', locals())

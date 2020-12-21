@@ -9,9 +9,9 @@ from general import models
 #         raise ValidationError('没有这个name值')
 
 class ContactForm(forms.Form):
-    name = forms.CharField(label='姓名', error_messages={'required': '请填写姓名'})
+    name = forms.CharField(label='姓名', required=True, error_messages={'required': '请填写姓名'}, widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': '请填写姓名'}))
     vendor_id = forms.ChoiceField(label='供应商', required=True, error_messages={'required': '请选择对应的供应商'})
-
     department = forms.CharField(label='部门', required=False,
                                  widget=forms.TextInput(
                                      attrs={'class': 'form-control', 'placeholder': '请填写部门，没有的话可以不填'}))

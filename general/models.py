@@ -1,12 +1,19 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from simple_history.models import HistoricalRecords
 
-from simple_history import register
-from django.contrib.auth.models import User
 
-register(User)
+class Test1(models.Model):
+    test2 = models.CharField(max_length=20, verbose_name='测试1')
 
+    class Meta:
+        verbose_name = '测试'
+
+
+class Test2(models.Model):
+    test2 = models.CharField(max_length=20, verbose_name='测试1')
+
+    class Meta:
+        verbose_name = '测试'
 
 # 供应商信息
 class Vendor(models.Model):
@@ -42,7 +49,6 @@ class Contact(models.Model):
     created_time = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)
     remark = models.TextField(max_length=500, verbose_name='备注', default='无')
-    history = HistoricalRecords()
 
     class Meta:
         verbose_name = '供应商联系人信息'

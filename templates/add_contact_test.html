@@ -43,7 +43,7 @@
         <div class="form-group row">
             <label for="name" class="col-md-4 col-form-label" style="text-align:right">{{ form.name.label }}：</label>
             <div class="col-md-4">
-                <input type="text" class="form-control" placeholder="请输入姓名" id="name" name="name">
+                {{ form.name }}
             </div>
             <div class="col-md-4 col-form-label" style="color:red;text-align:left">
                 {{ form.name.errors.0 }}
