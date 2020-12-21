@@ -2,19 +2,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
-class Test1(models.Model):
-    test2 = models.CharField(max_length=20, verbose_name='测试1')
-
-    class Meta:
-        verbose_name = '测试'
-
-
-class Test2(models.Model):
-    test2 = models.CharField(max_length=20, verbose_name='测试1')
-
-    class Meta:
-        verbose_name = '测试'
-
 # 供应商信息
 class Vendor(models.Model):
     chinese_short_name = models.CharField(max_length=50, verbose_name='中文简称', blank=True, null=True)
@@ -49,6 +36,7 @@ class Contact(models.Model):
     created_time = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)
     remark = models.TextField(max_length=500, verbose_name='备注', default='无')
+    last_reviser = models.CharField(max_length=20, verbose_name='最后修改人', blank=True, null=True)
 
     class Meta:
         verbose_name = '供应商联系人信息'

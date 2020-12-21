@@ -9,7 +9,7 @@
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 
-    <title>添加供应商联系人</title>
+    <title>编辑供应商联系人</title>
 </head>
 <body>
 
@@ -30,7 +30,7 @@
                 {% for i in vendor_list %}
 
                     <option value="{{ i.id }}" data-tokens="{{ i.chinese_full_name }} {{ i.english_full_name }}"
-                            {% if vendor_id_extracted_from_request == i.id %} selected {% endif %}>{{ i }}  </option>
+                            {% if form.vendor_id == i.id %} selected {% endif %}>{{ i }}  </option>
 
                 {% endfor %}
             </select>
@@ -44,7 +44,7 @@
 
         <div class="form-group row">
             <label for="name" class="col-md-4 col-form-label" style="text-align:right">{{ form.name.label }}：</label>
-            <div class="col-md-4">
+            <div class="col-md-4" value="{{ form.name }}">
                 {{ form.name }}
             </div>
             <div class="col-md-4 col-form-label" style="color:red;text-align:left">
