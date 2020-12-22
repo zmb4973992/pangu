@@ -9,29 +9,31 @@
     <link rel="stylesheet"
           href="https://cdn.bootcdn.net/ajax/libs/bootstrap-select/1.13.14/css/bootstrap-select.min.css">
 
-
-    <title>添加供应商联系人</title>
+    <title>编辑供应商联系人</title>
 </head>
 <body>
 
-
-<div class="container">
-
+{#全部使用bootstrap的container-fluid，便于填充浏览器的整个窗口#}
+<div class="container-fluid">
+    {#换行，给顶部留点空隙#}
     <br>
-    <form action="{% url 'add' %}" method="post">
+    {#使用表单，提交数据#}
+    <form action="{% url 'edit_contact' contact_id %}" method="post">
         {% csrf_token %}
         <div class="form-group row">
 
             <label for="vendor" class="col-md-4 col-form-label"
                    style="text-align:right">{{ form.vendor_id.label }}：</label>
 
+            {#这里用bootstrap-select进行处理，各项参数可以看官方文档的说明#}
             <select name="vendor_id" id="vendor" class="selectpicker col-md-4" data-live-search=“true” title="请选择供应商"
                     data-none-results-text="未找到{0}" data-size="7">
-
+                {#遍历供应商信息#}
                 {% for i in vendor_list %}
 
+                    {#通过bootstrap-select提供模糊搜索、data-tokens关键字搜索，通过中文名、英文名都可以搜出来，提供默认选择的功能#}
                     <option value="{{ i.id }}" data-tokens="{{ i.chinese_full_name }} {{ i.english_full_name }}"
-                            {% if vendor_id_extracted_from_request == i.id %} selected {% endif %}>{{ i }}  </option>
+                            {% if vendor_id_of_contact_obj == i.id %} selected {% endif %}>{{ i }}</option>
 
                 {% endfor %}
             </select>
@@ -46,7 +48,8 @@
         <div class="form-group row">
             <label for="name" class="col-md-4 col-form-label" style="text-align:right">{{ form.name.label }}：</label>
             <div class="col-md-4">
-                {{ form.name }}
+                <input type="text" id="name" name="name" value="{{ contact_obj.name }}"
+                       class="form-control" placeholder="请填写姓名">
             </div>
             <div class="col-md-4 col-form-label" style="color:red;text-align:left">
                 {{ form.name.errors.0 }}
@@ -57,7 +60,9 @@
         <div class="form-group row">
             <label for="department" class="col-md-4 col-form-label" style="text-align:right">{{ form.department.label }}：</label>
             <div class="col-md-4">
-                {{ form.department }}
+                <input type="text" id="department" name="department"
+                       value="{{ contact_obj.department }}"
+                       class="form-control" placeholder="请填写部门，没有的话可以不填">
             </div>
         </div>
 
@@ -65,7 +70,8 @@
             <label for="title" class="col-md-4 col-form-label"
                    style="text-align:right">{{ form.title.label }}：</label>
             <div class="col-md-4">
-                {{ form.title }}
+                <input type="text" id="title" name="title" value="{{ contact_obj.title }}"
+                       class="form-control" placeholder="请填写职务，没有的话可以不填">
             </div>
         </div>
 
@@ -74,14 +80,17 @@
             <label for="landline" class="col-md-4 col-form-label"
                    style="text-align:right">{{ form.landline.label }}：</label>
             <div class="col-md-4">
-                {{ form.landline }}            </div>
+                <input type="text" id="landline" name="landline" value="{{ contact_obj.landline }}"
+                       class="form-control" placeholder="请填写座机，没有的话可以不填">
+            </div>
         </div>
 
         <div class="form-group row">
             <label for="mobile" class="col-md-4 col-form-label"
                    style="text-align:right">{{ form.mobile.label }}：</label>
             <div class="col-md-4">
-                {{ form.mobile }}
+                <input type="text" id="mobile" name="mobile" value="{{ contact_obj.mobile }}"
+                       class="form-control" placeholder="请填写手机号码，没有的话可以不填">
             </div>
         </div>
 
@@ -90,7 +99,9 @@
             <label for="email" class="col-md-4 col-form-label"
                    style="text-align:right">{{ form.email.label }}：</label>
             <div class="col-md-4">
-                {{ form.email }}            </div>
+                <input type="text" id="email" name="email" value="{{ contact_obj.email }}"
+                       class="form-control" placeholder="请填写邮箱，没有的话可以不填">
+            </div>
         </div>
 
 
@@ -98,26 +109,32 @@
             <label for="qq" class="col-md-4 col-form-label"
                    style="text-align:right">{{ form.qq.label | upper }}：</label>
             <div class="col-md-4">
-                {{ form.qq }}            </div>
+                <input type="text" id="qq" name="qq" value="{{ contact_obj.qq }}"
+                       class="form-control" placeholder="请填写QQ，没有的话可以不填">
+            </div>
         </div>
 
         <div class="form-group row">
             <label for="wechat" class="col-md-4 col-form-label"
                    style="text-align:right">{{ form.wechat.label }}：</label>
             <div class="col-md-4">
-                {{ form.wechat }}            </div>
+                <input type="text" id="wechat" name="wechat" value="{{ contact_obj.wechat }}"
+                       class="form-control" placeholder="请填写微信，没有的话可以不填">
+            </div>
         </div>
 
         <div class="form-group row">
             <label for="remark" class="col-md-4 col-form-label"
                    style="text-align:right">{{ form.remark.label }}：</label>
             <div class="col-md-4">
-                {{ form.remark }}            </div>
+                <input type="text" id="remark" name="remark" value="{{ contact_obj.remark }}"
+                       class="form-control" placeholder="请填写备注，没有的话可以不填">
+            </div>
         </div>
 
-
         <div class="form-group row">
-            <div class="offset-4">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
                 <button type="submit" class="btn btn-primary btn-lg">确认提交</button>
             </div>
         </div>

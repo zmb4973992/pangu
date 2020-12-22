@@ -11,6 +11,16 @@ from general.myforms.login import LoginForm
 from general.models import UserInformation
 
 
+def get_vendorid1():
+    response = []
+    for obj in models.Vendor.objects.all():
+        if obj.chinese_short_name:
+            response += [(obj.id, obj.chinese_short_name + '--' + obj.chinese_full_name)]
+        else:
+            response += [(obj.id, obj.english_short_name + '--' + obj.english_full_name)]
+    return response
+
+
 class LoginView(views.View):
     def get(self, request):
         form = LoginForm()
@@ -90,7 +100,6 @@ class Add(views.View):
         # 这里重写vendor_id的choice方法，因为
         form.fields['vendor_id'].choices = self.get_vendorid(request)
 
-
         if form.is_valid():
             # 如果是form里的数据，就到cleaned_data里找；
             # 如果没有经过form验证，就直接从request.POST里取；
@@ -117,9 +126,47 @@ class Add(views.View):
 
 
 class EditContact(views.View):
-
+    # 定义get路径
     def get(self, request, contact_id):
-        form = models.Contact.objects.get(id=contact_id)
+        # 生成默认的form表单，用于以后post验证。这里全部是空值
+        form = ContactForm()
+        contact_id = int(contact_id)
+        # 从数据库取出所有的供应商，给填表时提供选项
         vendor_list = models.Vendor.objects.all()
+        # 根据前端传来的联系人id值，从数据库中获取对应的单条信息，用于填充到表格
+        contact_obj = models.Contact.objects.get(id=contact_id)
+        # 获取联系人的vendor_id，用来传给前端模板，一定要加int，不然前端总有str、int转换的问题
+        vendor_id_of_contact_obj = int(models.Contact.objects.get(id=contact_id).vendor_id)
+        return render(request, 'edit_contact_get.html', locals())
 
-        return render(request, 'edit_contact.html', locals())
+    def post(self, request, contact_id):
+        vendor_list = models.Vendor.objects.all()
+        # 对post传来的参数赋值给form，如果能通过就提交，不能通过也有下面的参数传回给前端
+        form = ContactForm(request.POST)
+        form.fields['vendor_id'].choices = get_vendorid1()
+        # 这是给前端url的参数
+        contact_id = int(contact_id)
+        # post方法下，需要获取用户刚刚输入的post信息，必须自己提取。
+        # 因为可能无效，导致is_valid为false，后面传参失败
+        vendor_id = int(request.POST.get('vendor_id'))
+        name = request.POST.get('name')
+        department = request.POST.get('department')
+        title = request.POST.get('title')
+        landline = request.POST.get('landline')
+        mobile = request.POST.get('mobile')
+        email = request.POST.get('email')
+        qq = request.POST.get('qq')
+        wechat = request.POST.get('wechat')
+        remark = request.POST.get('remark')
+        last_reviser = request.user.username
+
+        if form.is_valid():
+            models.Contact.objects.filter(id=contact_id).update(name=name, department=department, title=title,
+                                                                landline=landline,
+                                                                mobile=mobile, email=email, qq=qq, wechat=wechat,
+                                                                remark=remark,
+                                                                vendor_id=vendor_id, last_reviser=last_reviser)
+            return HttpResponse('成功')
+
+        else:
+            return render(request, 'edit_contact_post.html', locals())

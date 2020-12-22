@@ -2,35 +2,38 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
-    {#    {% load static %}#}
-    {#    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">#}
-    {# 这种导入有效，保留备用#}
+    {#最好保留，后期可以直接添加本地的静态文件#}
+    {% load static %}
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css">
     <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+          href="https://cdn.bootcdn.net/ajax/libs/bootstrap-select/1.13.14/css/bootstrap-select.min.css">
 
     <title>编辑供应商联系人</title>
 </head>
 <body>
 
-
-<div class="container">
-
+{#全部使用bootstrap的container-fluid，便于填充浏览器的整个窗口#}
+<div class="container-fluid">
+    {#换行，给顶部留点空隙#}
     <br>
-    <form action="{% url 'add' %}" method="post">
+    {#使用表单，提交数据，这个contact_id是给views用的，必须传递这个参数#}
+    <form action="{% url 'edit_contact' contact_id %}" method="post">
         {% csrf_token %}
         <div class="form-group row">
 
             <label for="vendor" class="col-md-4 col-form-label"
                    style="text-align:right">{{ form.vendor_id.label }}：</label>
 
+            {#这里用bootstrap-select进行处理，各项参数可以看官方文档的说明#}
             <select name="vendor_id" id="vendor" class="selectpicker col-md-4" data-live-search=“true” title="请选择供应商"
                     data-none-results-text="未找到{0}" data-size="7">
-
+                {#遍历供应商信息#}
                 {% for i in vendor_list %}
 
+                    {#通过bootstrap-select提供模糊搜索、data-tokens关键字搜索，通过中文名、英文名都可以搜出来，提供默认选择的功能#}
                     <option value="{{ i.id }}" data-tokens="{{ i.chinese_full_name }} {{ i.english_full_name }}"
-                            {% if form.vendor_id == i.id %} selected {% endif %}>{{ i }}  </option>
+                            {% if vendor_id == i.id %} selected {% endif %}>{{ i }}</option>
 
                 {% endfor %}
             </select>
@@ -44,8 +47,9 @@
 
         <div class="form-group row">
             <label for="name" class="col-md-4 col-form-label" style="text-align:right">{{ form.name.label }}：</label>
-            <div class="col-md-4" value="{{ form.name }}">
-                {{ form.name }}
+            <div class="col-md-4">
+                <input type="text" id="name" name="name" value="{{ name }}"
+                       class="form-control" placeholder="请填写姓名">
             </div>
             <div class="col-md-4 col-form-label" style="color:red;text-align:left">
                 {{ form.name.errors.0 }}
@@ -56,7 +60,9 @@
         <div class="form-group row">
             <label for="department" class="col-md-4 col-form-label" style="text-align:right">{{ form.department.label }}：</label>
             <div class="col-md-4">
-                {{ form.department }}
+                <input type="text" id="department" name="department"
+                       value="{{ department }}"
+                       class="form-control" placeholder="请填写部门，没有的话可以不填">
             </div>
         </div>
 
@@ -64,7 +70,8 @@
             <label for="title" class="col-md-4 col-form-label"
                    style="text-align:right">{{ form.title.label }}：</label>
             <div class="col-md-4">
-                {{ form.title }}
+                <input type="text" id="title" name="title" value="{{ title }}"
+                       class="form-control" placeholder="请填写职务，没有的话可以不填">
             </div>
         </div>
 
@@ -73,14 +80,17 @@
             <label for="landline" class="col-md-4 col-form-label"
                    style="text-align:right">{{ form.landline.label }}：</label>
             <div class="col-md-4">
-                {{ form.landline }}            </div>
+                <input type="text" id="landline" name="landline" value="{{ landline }}"
+                       class="form-control" placeholder="请填写座机，没有的话可以不填">
+            </div>
         </div>
 
         <div class="form-group row">
             <label for="mobile" class="col-md-4 col-form-label"
                    style="text-align:right">{{ form.mobile.label }}：</label>
             <div class="col-md-4">
-                {{ form.mobile }}
+                <input type="text" id="mobile" name="mobile" value="{{ mobile }}"
+                       class="form-control" placeholder="请填写手机号码，没有的话可以不填">
             </div>
         </div>
 
@@ -89,7 +99,9 @@
             <label for="email" class="col-md-4 col-form-label"
                    style="text-align:right">{{ form.email.label }}：</label>
             <div class="col-md-4">
-                {{ form.email }}            </div>
+                <input type="text" id="email" name="email" value="{{ email }}"
+                       class="form-control" placeholder="请填写邮箱，没有的话可以不填">
+            </div>
         </div>
 
 
@@ -97,66 +109,32 @@
             <label for="qq" class="col-md-4 col-form-label"
                    style="text-align:right">{{ form.qq.label | upper }}：</label>
             <div class="col-md-4">
-                {{ form.qq }}            </div>
+                <input type="text" id="qq" name="qq" value="{{ qq }}"
+                       class="form-control" placeholder="请填写QQ，没有的话可以不填">
+            </div>
         </div>
 
         <div class="form-group row">
             <label for="wechat" class="col-md-4 col-form-label"
                    style="text-align:right">{{ form.wechat.label }}：</label>
             <div class="col-md-4">
-                {{ form.wechat }}            </div>
+                <input type="text" id="wechat" name="wechat" value="{{ wechat }}"
+                       class="form-control" placeholder="请填写微信，没有的话可以不填">
+            </div>
         </div>
 
         <div class="form-group row">
             <label for="remark" class="col-md-4 col-form-label"
                    style="text-align:right">{{ form.remark.label }}：</label>
             <div class="col-md-4">
-                {{ form.remark }}            </div>
+                <input type="text" id="remark" name="remark" value="{{ remark }}"
+                       class="form-control" placeholder="请填写备注，没有的话可以不填">
+            </div>
         </div>
 
-        <fieldset class="form-group">
-            <div class="row">
-                <div class="col-form-label col-md-4 pt-0" style="text-align:right">Radios：</div>
-                <div class="col-md-4">
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1"
-                               value="option1"
-                               checked>
-                        <label class="form-check-label" for="gridRadios1">
-                            First radio
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
-                               value="option2">
-                        <label class="form-check-label" for="gridRadios2">
-                            Second radio
-                        </label>
-                    </div>
-                    <div class="form-check disabled">
-                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3"
-                               value="option3"
-                               disabled>
-                        <label class="form-check-label" for="gridRadios3">
-                            Third disabled radio
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </fieldset>
         <div class="form-group row">
-            <div class="col-md-4" style="text-align:right">Checkbox：</div>
+            <div class="col-md-4"></div>
             <div class="col-md-4">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="gridCheck1">
-                    <label class="form-check-label" for="gridCheck1">
-                        Example checkbox
-                    </label>
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="offset-4">
                 <button type="submit" class="btn btn-primary btn-lg">确认提交</button>
             </div>
         </div>
@@ -166,12 +144,12 @@
 </div>
 
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/popper.js/1.16.1/esm/popper.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.3/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/bootstrap-select/1.13.14/js/bootstrap-select.min.js"></script>
+{#jquery.js，popper.js，bootstrap.bundle.js，bootstrap-select.js#}
 
-{#jquery.js，popper.js，bootstrap.bundle.js，bootstrap-select.js #}
 </body>
 
 </html>

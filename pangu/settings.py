@@ -118,7 +118,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/abc/'
 # (这里路径可以随便改，因为后面用了load动态加载，后面自动跟着改)
 
 # 使用自定义的UserInformation来管理用户信息表
@@ -126,6 +126,8 @@ AUTH_USER_MODEL = "general.UserInformation"
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "static1"),
+    # 自定义静态文件的路径
 ]
 
 CRISPY_TEMPLATE_PACK = 'uni_form'
