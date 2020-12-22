@@ -11,13 +11,14 @@ from general.myforms.login import LoginForm
 from general.models import UserInformation
 
 
-def get_vendorid1():
+# 获取供应商清单，给choice使用，格式为[(1,'a'),(3,'b'),...]
+def get_vendor_list():
     response = []
     for obj in models.Vendor.objects.all():
         if obj.chinese_short_name:
-            response += [(obj.id, obj.chinese_short_name + '--' + obj.chinese_full_name)]
+            response += [(obj.id, str(obj.chinese_short_name) + ' -- ' + str(obj.chinese_full_name))]
         else:
-            response += [(obj.id, obj.english_short_name + '--' + obj.english_full_name)]
+            response += [(obj.id, str(obj.english_short_name) + ' -- ' + str(obj.english_full_name))]
     return response
 
 
@@ -74,36 +75,41 @@ class Order(views.View):
         return render(request, 'test1.html', locals())
 
 
-class Add(views.View):
+class AddContact(views.View):
 
     # 重写vendor_id的取值方法(只能用于choice，因为是iterable)这个函数有问题，暂时没有引用
-    def get_vendorid(self, request):
-        r = []
-        for obj in models.Vendor.objects.all():
-            if obj.chinese_short_name:
-                r += [(obj.id, obj.chinese_short_name + '--' + obj.chinese_full_name)]
-            else:
-                r += [(obj.id, obj.english_short_name + '--' + obj.english_full_name)]
-        return r
+    # def get_vendorid(self, request):
+    #     r = []
+    #     for obj in models.Vendor.objects.all():
+    #         if obj.chinese_short_name:
+    #             r += [(obj.id, obj.chinese_short_name + '--' + obj.chinese_full_name)]
+    #         else:
+    #             r += [(obj.id, obj.english_short_name + '--' + obj.english_full_name)]
+    #     return r
 
     def get(self, request):
         form = ContactForm()
-        form.fields['vendor_id'].choices = self.get_vendorid(request)
-        vendor_list = models.Vendor.objects.all()
+        # 获取到form以后，要重新定义choice方法（选项），否则前端传参回来无法通过验证
+        form.fields['vendor_id'].choices = get_vendor_list()
+        # vendor_list = models.Vendor.objects.all()
+        # values = models.Vendor.objects.all().values()
+        # values_list = models.Vendor.objects.all().values_list()
+        # print(values)
 
-        return render(request, 'add_contact_test.html', locals())
+        return render(request, 'add_contact.html', locals())
 
     def post(self, request):
-        vendor_list = models.Vendor.objects.all()
+        # vendor_list = models.Vendor.objects.all()
         form = ContactForm(request.POST)
-        vendor_id_extracted_from_request = int(request.POST['vendor_id'])
-        # 这里重写vendor_id的choice方法，因为
-        form.fields['vendor_id'].choices = self.get_vendorid(request)
+        # 获取到form以后，要重新定义choice方法（选项），否则前端传参回来无法通过验证
+        form.fields['vendor_id'].choices = get_vendor_list()
+        # 获取联系人的vendor_id，用来传给前端模板，一定要加int，不然前端总有str、int转换的问题
+        if request.POST.get('vendor_id'):
+            vendor_id_extracted_from_request = int(request.POST.get('vendor_id'))
 
         if form.is_valid():
             # 如果是form里的数据，就到cleaned_data里找；
             # 如果没有经过form验证，就直接从request.POST里取；
-            # print(form.cleaned_data)
             name = form.cleaned_data.get('name')
             department = form.cleaned_data.get('department')
             title = form.cleaned_data.get("title")
@@ -115,14 +121,15 @@ class Add(views.View):
             vendor_id = form.cleaned_data.get('vendor_id')
             remark = form.cleaned_data.get('remark')
             last_reviser = request.user.username
+            created_by = request.user.username
             models.Contact.objects.create(name=name, department=department, title=title, landline=landline,
                                           mobile=mobile, email=email, qq=qq, wechat=wechat, vendor_id=vendor_id,
-                                          remark=remark, last_reviser=last_reviser)
+                                          remark=remark, last_reviser=last_reviser, created_by=created_by)
 
-            return HttpResponse('添加成功')
+            return HttpResponse('添加成功！')
 
         else:
-            return render(request, 'add_contact_test.html', locals())
+            return render(request, 'add_contact.html', locals())
 
 
 class EditContact(views.View):
@@ -143,7 +150,7 @@ class EditContact(views.View):
         vendor_list = models.Vendor.objects.all()
         # 对post传来的参数赋值给form，如果能通过就提交，不能通过也有下面的参数传回给前端
         form = ContactForm(request.POST)
-        form.fields['vendor_id'].choices = get_vendorid1()
+        form.fields['vendor_id'].choices = get_vendor_list()
         # 这是给前端url的参数
         contact_id = int(contact_id)
         # post方法下，需要获取用户刚刚输入的post信息，必须自己提取。

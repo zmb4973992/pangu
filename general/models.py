@@ -3,6 +3,9 @@ from django.contrib.auth.models import AbstractUser
 
 
 # 供应商信息
+from django.utils import timezone
+
+
 class Vendor(models.Model):
     chinese_short_name = models.CharField(max_length=50, verbose_name='中文简称', blank=True, null=True)
     chinese_full_name = models.CharField(max_length=100, verbose_name='中文全称', blank=True, null=True)
@@ -37,6 +40,7 @@ class Contact(models.Model):
     updated_time = models.DateTimeField(auto_now=True)
     remark = models.TextField(max_length=500, verbose_name='备注', default='无')
     last_reviser = models.CharField(max_length=20, verbose_name='最后修改人', blank=True, null=True)
+    created_by = models.CharField(max_length=20, verbose_name='创建人', blank=True, null=True)
 
     class Meta:
         verbose_name = '供应商联系人信息'

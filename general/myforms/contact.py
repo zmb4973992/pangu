@@ -8,9 +8,12 @@ from general import models
 #     if not Vendor.objects.filter(Q(name__contains=value) | Q(address__contains=value)):
 #         raise ValidationError('没有这个name值')
 
+
+
 class ContactForm(forms.Form):
     name = forms.CharField(label='姓名', required=True, error_messages={'required': '请填写姓名'}, widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': '请填写姓名'}))
+    # choice的格式为[(1,'a'),(3,'b'),...]
     vendor_id = forms.ChoiceField(label='供应商', required=True, error_messages={'required': '请选择对应的供应商'})
     department = forms.CharField(label='部门', required=False,
                                  widget=forms.TextInput(
