@@ -26,4 +26,5 @@ urlpatterns = [
     path('test/', views.TestTemplate.as_view()),
     path('order/', include('general.urls')),
     path('contact/', include('general.urls')),
+    path('search/', include('general.urls')),
 ]

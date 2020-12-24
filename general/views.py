@@ -10,8 +10,10 @@ from general.myforms.contact import ContactForm
 from general.myforms.login import LoginForm
 from general.models import UserInformation
 
-
 # 获取供应商清单，给choice使用，格式为[(1,'a'),(3,'b'),...]
+from general.myforms.search_contact import SearchContactForm
+
+
 def get_vendor_list():
     response = []
     for obj in models.Vendor.objects.all():
@@ -177,3 +179,12 @@ class EditContact(views.View):
 
         else:
             return render(request, 'edit_contact_post.html', locals())
+
+
+class SearchContact(views.View):
+    def get(self, request):
+        form = SearchContactForm()
+        return render(request, 'search_contact.html', locals())
+
+    def post(self, request):
+        pass
