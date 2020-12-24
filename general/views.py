@@ -45,6 +45,7 @@ class LoginView(views.View):
             return render(request, 'login.html', locals())
 
 
+@method_decorator(login_required, name='dispatch')
 class LogoutView(views.View):
     def get(self, request):
         auth.logout(request)
@@ -55,7 +56,7 @@ class LogoutView(views.View):
 @method_decorator(login_required, name='dispatch')
 class HomeView(views.View):
     def get(self, request):
-        return render(request, '1.html')
+        return render(request, 'home.html')
 
 
 class Test(views.View):
@@ -69,6 +70,7 @@ class TestTemplate(views.View):
         return render(request, 'test.html', locals())
 
 
+@method_decorator(login_required, name='dispatch')
 class Order(views.View):
     def get(self, request, short_order_number):
         order_list = models.Order.objects.filter(short_order_number=short_order_number)
@@ -77,6 +79,7 @@ class Order(views.View):
         return render(request, 'test1.html', locals())
 
 
+@method_decorator(login_required, name='dispatch')
 class AddContact(views.View):
 
     # 重写vendor_id的取值方法(只能用于choice，因为是iterable)这个函数有问题，暂时没有引用
@@ -134,6 +137,7 @@ class AddContact(views.View):
             return render(request, 'add_contact.html', locals())
 
 
+@method_decorator(login_required, name='dispatch')
 class EditContact(views.View):
     # 定义get路径
     def get(self, request, contact_id):
@@ -181,6 +185,7 @@ class EditContact(views.View):
             return render(request, 'edit_contact_post.html', locals())
 
 
+@method_decorator(login_required, name='dispatch')
 class SearchContact(views.View):
     def get(self, request):
         form = SearchContactForm()
@@ -193,6 +198,7 @@ class SearchContact(views.View):
         return render(request, 'search_contact.html', locals())
 
 
+@method_decorator(login_required, name='dispatch')
 class ContactAll(views.View):
     def get(self, request):
         form = models.Contact.objects.all().order_by('vendor__chinese_short_name', 'vendor__english_short_name')

@@ -25,7 +25,7 @@ urlpatterns = [
     path('zhuceceshi/', views.Test.as_view()),  # 注册测试，访问就生成bbb-bbbb普通用户，访问前需要删除UserInformation数据表的信息
     path('test/', views.TestTemplate.as_view()),
     path('order/', include('general.urls')),
-    path('contact/', include('general.urls')),
+    path('contact/', include('general.urls', namespace='contact')),
     path('search/', include('general.urls'))
 
 ]
