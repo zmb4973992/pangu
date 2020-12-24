@@ -37,13 +37,12 @@
     <br>
 
     {% for order_obj in order_list %}
-        <table class="table table-bordered table-hover">
+        <table class="table table-bordered table-hover" style="margin-bottom: 0">
             <thead>
             </thead>
-
             <tbody>
             <tr>
-                <td class="text-center" style="width: 10%"><b>合同号</b></td>
+                <td class="text-center" style="width: 10%;"><b>合同号</b></td>
                 <td style="width:40%">{{ order_obj.short_order_number }}</td>
                 <td class="text-center" style="width: 10%"><b>业主项目号</b></td>
                 <td style="width:40%">{{ order_obj.project_number }}</td>

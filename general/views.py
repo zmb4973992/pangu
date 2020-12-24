@@ -184,7 +184,17 @@ class EditContact(views.View):
 class SearchContact(views.View):
     def get(self, request):
         form = SearchContactForm()
-        return render(request, 'search_contact.html', locals())
+
+        return render(request, 'search_contact_test.html', locals())
 
     def post(self, request):
-        pass
+        form = SearchContactForm(request.POST)
+
+        return render(request, 'search_contact.html', locals())
+
+
+class ContactAll(views.View):
+    def get(self, request):
+        form = models.Contact.objects.all().order_by('vendor__chinese_short_name', 'vendor__english_short_name')
+
+        return render(request, 'contact_all.html', locals())

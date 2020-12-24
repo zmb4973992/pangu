@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {#最好保留，后期可以直接添加本地的静态文件#}
+    {% load static %}
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
+    <link rel="stylesheet"
+          href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://cdn.bootcdn.net/ajax/libs/bootstrap-select/1.13.14/css/bootstrap-select.min.css">
+
+    <title>Title</title>
+</head>
+<body>
+<div class="container-fluid">
+    <br>
+
+
+    <table class="table table-bordered table-hover" style="text-align:center;padding-bottom: 0">
+
+        {% for i in form %}
+            <tr style="white-space:nowrap">
+                <td>{{ i.name }}</td>
+                <td>{{ i.mobile | default_if_none:'' }}</td>
+                <td>{{ i.landline | default_if_none:'' }}</td>
+                <td>{{ i.email | default_if_none:'' }}</td>
+                <td>{{ i.vendor.chinese_short_name | default_if_none:'' }}</td>
+                <td>{{ i.vendor.english_short_name | default_if_none:'' }}</td>
+                <td>{{ i.qq }}</td>
+                <td>{{ i.wechat }}</td>
+
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/popper.js/1.16.1/esm/popper.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.3/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/bootstrap-select/1.13.14/js/bootstrap-select.min.js"></script>
+
+{#jquery.js，popper.js，bootstrap.bundle.js，bootstrap-select.js#}
+
+</body>
+</html>

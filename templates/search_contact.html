@@ -5,7 +5,8 @@
     {#最好保留，后期可以直接添加本地的静态文件#}
     {% load static %}
     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
-    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css">
     <link rel="stylesheet"
           href="https://cdn.bootcdn.net/ajax/libs/bootstrap-select/1.13.14/css/bootstrap-select.min.css">
 
@@ -15,7 +16,64 @@
 <div class="container-fluid">
     <br>
 
-{{ form }}
+    <form action="{% url 'search_contact' %}" method="post">
+        {# 必须放在form表单里才能提交，否则报错#}
+        {% csrf_token %}
+
+        <div class="form-group row">
+            <label for="vendor" class="col-md-2 col-form-label" style="text-align:right">
+                {{ form.vendor.label }}：
+            </label>
+            <div class="col-md-5">
+                {{ form.vendor }}
+            </div>
+            <div class="col-form-label" style="color:red;text-align:left">
+                {{ form.vendor.errors.0 }}
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="name" class="col-md-2 col-form-label" style="text-align:right">
+                {{ form.name.label }}：
+            </label>
+            <div class="col-md-5">
+                {{ form.name }}
+            </div>
+            <div class="col-form-label" style="color:red;text-align:left">
+                {{ form.name.errors.0 }}
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg">搜索</button>
+    </form>
+
+    <div class="table-responsive">
+        {#    表头，展示供应商基本的名称#}
+        {#        <table class="table table-bordered table-hover" style="text-align:center;margin-bottom: 0">#}
+        {#            <tbody>#}
+        {#            <tr>#}
+        {#                <td style="width:13%"><strong>1</strong></td>#}
+        {#                <td style="width:37%"><strong>1</strong></td>#}
+        {#                <td style="width:13%"><strong>1</strong></td>#}
+        {#                <td style="width:37%"><strong>1</strong></td>#}
+        {#            </tr>#}
+        {#            </tbody>#}
+        {#        </table>#}
+        {#    表身，展示联系人信息#}
+        <table class="table table-bordered table-hover table-responsive" style="text-align:center;padding-bottom: 0">
+            <tr>
+                <td>kdfkj</td>
+                <td>sdfkerjiwejfrdfjsffsdfsdfsdfsdksdf</td>
+                <td>cxvvxcv</td>
+                <td>sdfsekrtjewijwsdfsdfiejfriefwefijw</td>
+                <td style="width:10%"><strong>打客服的</strong></td>
+                <td style="width:10%"><strong>16522365242</strong></td>
+                <td style="width:20%"><strong>0541-88566584</strong></td>
+                <td style="width:302px"><strong>dfksjdfkdf@dfkjdskfjsk.com</strong></td>
+                <td style="width:1331px"><strong>查看详细</strong></td>
+            </tr>
+        </table>
+    </div>
 
 
 </div>

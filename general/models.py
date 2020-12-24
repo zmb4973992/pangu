@@ -41,6 +41,7 @@ class Contact(models.Model):
     remark = models.TextField(max_length=500, verbose_name='备注', default='无')
     last_reviser = models.CharField(max_length=20, verbose_name='最后修改人', blank=True, null=True)
     created_by = models.CharField(max_length=20, verbose_name='创建人', blank=True, null=True)
+    test = models.CharField(max_length=11, blank=True, null=True)
 
     class Meta:
         verbose_name = '供应商联系人信息'
