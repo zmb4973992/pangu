@@ -1,6 +1,6 @@
 from django import views
 from django.db.models import Q
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.contrib import auth
@@ -202,5 +202,7 @@ class SearchContact(views.View):
 class ContactAll(views.View):
     def get(self, request):
         form = models.Contact.objects.all().order_by('vendor__chinese_short_name', 'vendor__english_short_name')
+        new_form = JsonResponse(form, safe=False)
+        print(new_form)
 
-        return render(request, 'contact_all.html', locals())
+        return render(request, 'contact_all_test.html', locals())
