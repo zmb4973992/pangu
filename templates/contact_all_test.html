@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+
+
+
+{% block contact %}
+    active
+{% endblock %}
+
+{% block content %}
+    <br>
+    <table id="a1" class="table table-condensed table-hover">
+        <thead>
+        <tr>
+            <th>姓名</th>
+            <th>手机</th>
+            <th>座机</th>
+            <th>邮箱</th>
+            <th>中文简称</th>
+            <th>英文简称</th>
+            <th>QQ</th>
+            <th>微信</th>
+        </tr>
+        </thead>
+        {% for i in form %}
+            <tr style="white-space:nowrap">
+                <td>{{ i.name }}</td>
+                <td>{{ i.mobile | default_if_none:'' }}</td>
+                <td>{{ i.landline | default_if_none:'' }}</td>
+                <td>{{ i.email | default_if_none:'' }}</td>
+                <td>{{ i.vendor.chinese_short_name | default_if_none:'' }}</td>
+                <td>{{ i.vendor.english_short_name | default_if_none:'' }}</td>
+                <td>{{ i.qq }}</td>
+                <td>{{ i.wechat }}</td>
+
+            </tr>
+        {% endfor %}
+    </table>
+    <script>
+        $('#a1').datagrid({
+            sortable: true,
+            checkable: true,
+            states: {
+                fixedTopUntil: 0,
+                fixedLeftUntil: 0,
+            }
+        });
+    </script>
+{% endblock %}

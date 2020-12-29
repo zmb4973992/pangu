@@ -7,6 +7,7 @@ from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from rest_framework import viewsets
 from rest_framework.authentication import BasicAuthentication, SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 from general import models
 from general.myforms.contact import ContactForm
@@ -218,11 +219,13 @@ class ContactViewSet(viewsets.ModelViewSet):
     # 序列化器在这里写
     serializer_class = ContactSerializer
 
-    # 分页器在这里写，不会，再查####################################
+    # 分页器在这里写####################################
     # pagination_class =
 
-    # 鉴权在这里写，不会，再查#################
-    authentication_classes = (BasicAuthentication, SessionAuthentication)
+    # 鉴权在这里写#################
+    # authentication_classes = (BasicAuthentication, SessionAuthentication)
 
-    # 权限在这里写，不会，再查######################
-    # permission_classes =
+    # 权限在这里写######################
+    # permission_classes = [IsAuthenticated]
+
+# class MyAuthentication(BasicAuthentication):

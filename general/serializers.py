@@ -21,7 +21,7 @@ class ContactSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contact
 
-        exclude = ['id',]
+        exclude = ['id', ]
 
     # 局部钩子和全局钩子也在这里写
     # ModelSerializer已经重写了入库方法
