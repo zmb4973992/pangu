@@ -15,7 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework import routers
+
 from general import views
+
+# 生成一个注册器实例对象
+router = routers.DefaultRouter()
+
+# 将需要自动生成url的接口注册
+router.register(r'contact_test', views.ContactViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,6 +34,7 @@ urlpatterns = [
     path('test/', views.TestTemplate.as_view()),
     path('order/', include('general.urls')),
     path('contact/', include('general.urls', namespace='contact')),
-    path('search/', include('general.urls'))
+    path('search/', include('general.urls')),
+    path('api/', include(router.urls))
 
 ]

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'general',
     'crispy_forms',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -135,3 +136,11 @@ CRISPY_TEMPLATE_PACK = 'uni_form'
 LOGIN_URL = "login"
 
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 365  # session过期时间为1年
+
+# 认证组件
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}

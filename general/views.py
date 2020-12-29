@@ -5,6 +5,9 @@ from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
+from rest_framework import viewsets
+from rest_framework.authentication import BasicAuthentication, SessionAuthentication
+
 from general import models
 from general.myforms.contact import ContactForm
 from general.myforms.login import LoginForm
@@ -12,6 +15,7 @@ from general.models import UserInformation
 
 # 获取供应商清单，给choice使用，格式为[(1,'a'),(3,'b'),...]
 from general.myforms.search_contact import SearchContactForm
+from general.serializers import ContactSerializer
 
 
 def get_vendor_list():
@@ -206,3 +210,19 @@ class ContactAll(views.View):
         print(new_form)
 
         return render(request, 'contact_all_test.html', locals())
+
+
+# 这是视图集，里面封装了5个mixin，进行post/get/put/delete等方法的分发，可以看源码
+class ContactViewSet(viewsets.ModelViewSet):
+    queryset = models.Contact.objects.all()
+    # 序列化器在这里写
+    serializer_class = ContactSerializer
+
+    # 分页器在这里写，不会，再查####################################
+    # pagination_class =
+
+    # 鉴权在这里写，不会，再查#################
+    authentication_classes = (BasicAuthentication, SessionAuthentication)
+
+    # 权限在这里写，不会，再查######################
+    # permission_classes =
