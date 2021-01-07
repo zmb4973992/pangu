@@ -16,7 +16,7 @@ from general.models import UserInformation
 
 # 获取供应商清单，给choice使用，格式为[(1,'a'),(3,'b'),...]
 from general.myforms.search_contact import SearchContactForm
-from general.serializers import ContactSerializer
+from general.serializers import ContactSerializer, VendorSerializer
 
 
 def get_vendor_list():
@@ -215,6 +215,8 @@ class ContactAll(views.View):
 
 # 这是视图集，里面封装了5个mixin，进行post/get/put/delete等方法的分发，可以看源码
 class ContactViewSet(viewsets.ModelViewSet):
+    # 先定义查询集，告诉服务器查询的范围
+
     queryset = models.Contact.objects.all()
     # 序列化器在这里写
     serializer_class = ContactSerializer
@@ -228,4 +230,8 @@ class ContactViewSet(viewsets.ModelViewSet):
     # 权限在这里写######################
     # permission_classes = [IsAuthenticated]
 
+
 # class MyAuthentication(BasicAuthentication):
+class VendorViewSet(viewsets.ModelViewSet):
+    queryset = models.Vendor.objects.all()
+    serializer_class = VendorSerializer

@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-
 # 供应商信息
 from django.utils import timezone
 
@@ -42,6 +41,7 @@ class Contact(models.Model):
     last_reviser = models.CharField(max_length=20, verbose_name='最后修改人', blank=True, null=True)
     created_by = models.CharField(max_length=20, verbose_name='创建人', blank=True, null=True)
     test = models.CharField(max_length=11, blank=True, null=True)
+    is_deleted = models.BooleanField(default=False, verbose_name='逻辑删除')
 
     class Meta:
         verbose_name = '供应商联系人信息'
@@ -49,6 +49,11 @@ class Contact(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ContactMsn(models.Model):
+    msn = models.CharField(max_length=30)
+    contact = models.ForeignKey(to=Contact, on_delete=models.PROTECT)
 
 
 # 合同信息

@@ -23,7 +23,8 @@ from general import views
 router = routers.DefaultRouter()
 
 # 将需要自动生成url的接口注册
-router.register(r'contact_test', views.ContactViewSet)
+router.register(r'contact', views.ContactViewSet)
+router.register(r'vendor', views.VendorViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

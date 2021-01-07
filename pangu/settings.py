@@ -131,20 +131,21 @@ STATICFILES_DIRS = [
     # 自定义静态文件的路径
 ]
 
-CRISPY_TEMPLATE_PACK = 'uni_form'
-
+# 设置了强制登录后，必须保留此项，否则报错。后面为登录页的别名，自定义
 LOGIN_URL = "login"
 
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 365  # session过期时间为1年
 
 # 认证组件
+
+# 这种浏览器弹出认证框的方式叫“BasicAuthentication”，将BasicAuthentication移除，再次访问需要认证的页面，drf就能返回401了，不弹框了
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
+        # 'rest_framework.permissions.IsAuthenticated',
     ),
 
     'DEFAULT_THROTTLE_CLASSES': [
@@ -152,7 +153,7 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.UserRateThrottle'
     ],
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '1/minute',
+        'anon': '10/minute',
         'user': '5/second'
     },
 
@@ -161,4 +162,4 @@ REST_FRAMEWORK = {
 }
 
 # 定义session存储方式，删了drf会有问题
-SESSION_ENGINE = "django.contrib.sessions.backends.db"
+# SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
