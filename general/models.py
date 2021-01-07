@@ -34,7 +34,6 @@ class Contact(models.Model):
     email = models.CharField(max_length=30, verbose_name='邮箱', blank=True, null=True)
     qq = models.CharField(max_length=20, blank=True, null=True)
     wechat = models.CharField(max_length=25, verbose_name='微信', blank=True, null=True)
-    vendor = models.ForeignKey(to=Vendor, on_delete=models.PROTECT)
     created_time = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)
     remark = models.TextField(max_length=500, verbose_name='备注', default='无')
@@ -42,6 +41,7 @@ class Contact(models.Model):
     created_by = models.CharField(max_length=20, verbose_name='创建人', blank=True, null=True)
     test = models.CharField(max_length=11, blank=True, null=True)
     is_deleted = models.BooleanField(default=False, verbose_name='逻辑删除')
+    vendor = models.ForeignKey(to=Vendor, on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = '供应商联系人信息'
@@ -51,14 +51,9 @@ class Contact(models.Model):
         return self.name
 
 
-class ContactMsn(models.Model):
-    msn = models.CharField(max_length=30)
-    contact = models.ForeignKey(to=Contact, on_delete=models.PROTECT)
-
-
 # 合同信息
 class Order(models.Model):
-    short_order_number = models.CharField(max_length=20, verbose_name='合同号简写')  # 是否允许重复？
+    short_order_number = models.CharField(max_length=20, verbose_name='合同号简写')
     person_in_charge = models.CharField(max_length=10, verbose_name='合同负责人', blank=True, null=True)
     client_type = models.CharField(max_length=20, verbose_name='客户类型')
     country_of_origin = models.CharField(max_length=20, verbose_name='原产地')
@@ -87,12 +82,25 @@ class Order(models.Model):
     remark = models.TextField(max_length=500, verbose_name='备注', default='无')
     vendor = models.ForeignKey(to=Vendor, on_delete=models.PROTECT)
 
+    # 测试多对多用的，可以作为参考，不用于真实环境
+    # contact = models.ManyToManyField(through='Middle', through_fields=('order', 'contact',), to=Contact)
+
     def __str__(self):
         return self.short_order_number
 
     class Meta:
         verbose_name = '合同信息'
         verbose_name_plural = verbose_name
+
+
+# 测试多对多用的，可以作为参考，不用于真实环境
+# class Middle(models.Model):
+#     contact = models.ForeignKey(to=Contact, on_delete=models.CASCADE)
+#     order = models.ForeignKey(to=Order, on_delete=models.CASCADE)
+#
+#     class Meta:
+#         verbose_name = '合同_联系人中间表(多对多测试)'
+#         verbose_name_plural = verbose_name
 
 
 class Guarantee(models.Model):
@@ -125,10 +133,10 @@ class OrderToGuarantee(models.Model):
     serial_number_of_guarantee = models.ForeignKey(verbose_name='保函编号', to=Guarantee, on_delete=models.PROTECT)
 
     def __str__(self):
-        return self.short_order_number + '---' + self.serial_number_of_guarantee
+        return str(self.short_order_number) + '---' + str(self.serial_number_of_guarantee)
 
     class Meta:
-        verbose_name = '合同保函中间表'
+        verbose_name = '合同_保函中间表'
         verbose_name_plural = verbose_name
 
 

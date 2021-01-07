@@ -16,7 +16,7 @@ from general.models import UserInformation
 
 # 获取供应商清单，给choice使用，格式为[(1,'a'),(3,'b'),...]
 from general.myforms.search_contact import SearchContactForm
-from general.serializers import ContactSerializer, VendorSerializer
+from general.serializers import ContactSerializer, VendorSerializer, OrderSerializer, GuaranteeSerializer
 
 
 def get_vendor_list():
@@ -235,3 +235,13 @@ class ContactViewSet(viewsets.ModelViewSet):
 class VendorViewSet(viewsets.ModelViewSet):
     queryset = models.Vendor.objects.all()
     serializer_class = VendorSerializer
+
+
+class OrderViewSet(viewsets.ModelViewSet):
+    queryset = models.Order.objects.all()
+    serializer_class = OrderSerializer
+
+
+class GuaranteeViewSet(viewsets.ModelViewSet):
+    queryset = models.Guarantee.objects.all()
+    serializer_class = GuaranteeSerializer

@@ -25,6 +25,8 @@ router = routers.DefaultRouter()
 # 将需要自动生成url的接口注册
 router.register(r'contact', views.ContactViewSet)
 router.register(r'vendor', views.VendorViewSet)
+router.register(r'order',views.OrderViewSet)
+router.register(r'guarantee',views.GuaranteeViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
