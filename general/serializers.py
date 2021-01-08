@@ -40,7 +40,6 @@ from general.models import Vendor, Contact, Order, Guarantee
 
 
 class OrderSerializer(serializers.ModelSerializer):
-
     # order表有外键contact字段，所以可以显示所有的联系人
     class Meta:
         model = Order
@@ -52,16 +51,20 @@ class OrderSerializer(serializers.ModelSerializer):
 class ContactSerializer(serializers.ModelSerializer):
     # contact没有order的外键字段，所以默认无法显示所有的order
     # 通过查询集的方式，展示当前联系人的所有订单
-    order_set = OrderSerializer(many=True, read_only=True)
+    # order_set = OrderSerializer(many=True, read_only=True)
 
     class Meta:
         model = Contact
-        fields = '__all__'
+        # fields = '__all__'
+        exclude = ('id',)
         # 要想显示外键的全部信息，就要开启depth
         depth = 1
+        # read可以这么写，write没有这个功能
+        # read_only_fields = [""]
         extra_kwargs = {
-            'vendor': '{}',
-
+            'id': {
+                'write_only': True
+            }
         }
 
 

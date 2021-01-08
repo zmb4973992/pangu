@@ -1,9 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-# 供应商信息
-from django.utils import timezone
-
 
 class Vendor(models.Model):
     chinese_short_name = models.CharField(max_length=50, verbose_name='中文简称', blank=True, null=True)
