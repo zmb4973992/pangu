@@ -15,8 +15,6 @@ class Vendor(models.Model):
     remark = models.TextField(max_length=500, verbose_name='备注', blank=True, null=True)
     is_deleted = models.BooleanField(default=False, verbose_name='逻辑删除')
 
-
-
     class Meta:
         verbose_name = '供应商信息'
         verbose_name_plural = verbose_name
@@ -86,6 +84,8 @@ class Order(models.Model):
     remark = models.TextField(max_length=500, verbose_name='备注', default='无')
     vendor = models.ForeignKey(to=Vendor, on_delete=models.PROTECT)
     is_deleted = models.BooleanField(default=False, verbose_name='逻辑删除')
+    created_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    updated_time = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     # 测试多对多用的，可以作为参考，不用于真实环境
     # contact = models.ManyToManyField(through='Middle', through_fields=('order', 'contact',), to=Contact)
@@ -125,6 +125,8 @@ class Guarantee(models.Model):
     short_order_number = models.ManyToManyField(verbose_name='合同号简写', to=Order, through='OrderToGuarantee',
                                                 through_fields=('serial_number_of_guarantee', 'short_order_number'), )
     is_deleted = models.BooleanField(default=False, verbose_name='逻辑删除')
+    created_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    updated_time = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
         return self.serial_number
@@ -138,6 +140,8 @@ class OrderToGuarantee(models.Model):
     short_order_number = models.ForeignKey(verbose_name='合同号简写', to=Order, on_delete=models.PROTECT)
     serial_number_of_guarantee = models.ForeignKey(verbose_name='保函编号', to=Guarantee, on_delete=models.PROTECT)
     is_deleted = models.BooleanField(default=False, verbose_name='逻辑删除')
+    created_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    updated_time = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
         return str(self.short_order_number) + '---' + str(self.serial_number_of_guarantee)
@@ -153,6 +157,8 @@ class OrderToGuarantee(models.Model):
 class UserInformation(AbstractUser):
     mobile = models.BigIntegerField(verbose_name='手机号', blank=True, null=True)
     is_deleted = models.BooleanField(default=False, verbose_name='逻辑删除')
+    created_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    updated_time = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     class Meta:
         verbose_name = '网站用户信息'

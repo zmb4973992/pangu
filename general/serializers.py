@@ -43,7 +43,7 @@ class OrderReadSerializer(serializers.ModelSerializer):
     # order表有外键contact字段，所以可以显示所有的联系人
     class Meta:
         model = Order
-        fields = '__all__'
+        exclude = ['id', 'is_deleted', 'created_time', 'updated_time']
         # 自定义外键查询的深度
         # depth = 1
 
@@ -73,6 +73,15 @@ class OrderReadSerializer(serializers.ModelSerializer):
                       chinese_address=obj.vendor.chinese_address,
                       english_address=obj.vendor.english_address)
         return record
+
+
+class OrderWriteSerializer(serializers.ModelSerializer):
+    # order表有外键contact字段，所以可以显示所有的联系人
+    class Meta:
+        model = Order
+        exclude = ['id', 'is_deleted', 'created_time', 'updated_time']
+        # 自定义外键查询的深度
+        # depth = 1
 
 
 class ContactReadSerializer(serializers.ModelSerializer):
@@ -111,19 +120,17 @@ class ContactReadSerializer(serializers.ModelSerializer):
 
 
 class ContactWriteSerializer(serializers.ModelSerializer):
-    # order_set = OrderSerializer(many=True, read_only=True)
-
     class Meta:
         model = Contact
-        fields = '__all__'
+        exclude = ('created_time', 'updated_time', 'is_deleted')
 
-    @staticmethod
-    # 这里的data是提交的email内容
-    def validate_email(data):
-        print(data)
-        if '@' not in data:
-            raise serializers.ValidationError('email必须有@')
-        return data
+    # @staticmethod
+    # # 这里的data是提交的email内容
+    # def validate_email(data):
+    #     print(data)
+    #     if '@' not in data:
+    #         raise serializers.ValidationError('email必须有@')
+    #     return data
 
 
 # 本类仅供作为外键时显示使用，显示的字段更少，加快传输速度
@@ -144,10 +151,21 @@ class VendorReadSerializer(serializers.ModelSerializer):
     contact_set = ContactShortSerializer(read_only=True, many=True)
 
 
+class VendorWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vendor
+        exclude = ['is_deleted', 'id', 'created_time', 'updated_time']
+        # 自定义外键查询的深度
+        # depth = 1
+
+    # 查询多方的列表信息，用short序列化器
+    contact_set = ContactShortSerializer(read_only=True, many=True)
+
+
 class GuaranteeReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Guarantee
-        exclude = ['is_deleted', 'id', 'short_order_number']
+        exclude = ['is_deleted', 'id', 'created_time', 'updated_time']
 
     order_test = serializers.SerializerMethodField()
 
@@ -161,6 +179,11 @@ class GuaranteeReadSerializer(serializers.ModelSerializer):
     # return [row for row in
     #         obj.short_order_number.all().values('short_order_number', 'person_in_charge', 'client_type')]
 
+
+class GuaranteeWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Guarantee
+        exclude = ['is_deleted', 'id', 'created_time', 'updated_time']
 #
 # class VendorSerializer(serializers.Serializer):
 #     chinese_short_name = serializers.CharField(required=False)
