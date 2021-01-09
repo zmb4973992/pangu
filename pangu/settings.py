@@ -29,7 +29,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'simpleui',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -79,7 +78,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'HOST': 'cn-dy-yd.sakurafrp.com',
         'PORT': '20507',
-        'NAME': 'test3',
+        'NAME': 'test',
         'USER': 'postgres',
         'PASSWORD': '028912',
     }

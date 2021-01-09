@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
-from rest_framework import viewsets
+from rest_framework import viewsets, request
 from rest_framework.authentication import BasicAuthentication, SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 
@@ -16,7 +16,8 @@ from general.models import UserInformation
 
 # 获取供应商清单，给choice使用，格式为[(1,'a'),(3,'b'),...]
 from general.myforms.search_contact import SearchContactForm
-from general.serializers import ContactSerializer, VendorSerializer, OrderSerializer, GuaranteeSerializer
+from general.serializers import VendorReadSerializer, OrderReadSerializer, GuaranteeReadSerializer, \
+    ContactReadSerializer, ContactWriteSerializer
 
 
 def get_vendor_list():
@@ -217,10 +218,18 @@ class ContactAll(views.View):
 class ContactViewSet(viewsets.ModelViewSet):
     # 先定义查询集，告诉服务器查询的范围
 
-    queryset = models.Contact.objects.all()
-    # 序列化器在这里写
-    serializer_class = ContactSerializer
+    queryset = models.Contact.objects.filter(is_deleted=False)
+    # 序列化器在这里写,默认使用read
+    serializer_class = ContactReadSerializer
 
+    # def get_serializer_class(self):
+    #     # 如果需要修改内容，全部用write序列化器，方便做验证、入库
+    #     if self.action in ['update', 'create', 'partial_update', 'destroy']:
+    #         print(self.action)
+    #         return ContactWriteSerializer
+    #     # 如果是查看内容，用read序列化器，优化显示外键字段，隐藏不需要显示的字段
+    #     else:
+    #         return ContactReadSerializer
     # 分页器在这里写####################################
     # pagination_class =
 
@@ -233,15 +242,25 @@ class ContactViewSet(viewsets.ModelViewSet):
 
 # class MyAuthentication(BasicAuthentication):
 class VendorViewSet(viewsets.ModelViewSet):
-    queryset = models.Vendor.objects.all()
-    serializer_class = VendorSerializer
+    queryset = models.Vendor.objects.filter(is_deleted=False)
+    serializer_class = VendorReadSerializer
+
+    # def get_serializer_class(self):
+    #     # print(request.Request.user)
+    #     # 如果需要修改内容，全部用write序列化器，方便做验证、入库
+    #     if self.action in ['update', 'create', 'partial_update', 'destroy']:
+    #         print(self.action)
+    #         return ContactWriteSerializer
+    #     # 如果是查看内容，用read序列化器，优化显示外键字段，隐藏不需要显示的字段
+    #     else:
+    #         return ContactReadSerializer
 
 
 class OrderViewSet(viewsets.ModelViewSet):
-    queryset = models.Order.objects.all()
-    serializer_class = OrderSerializer
+    queryset = models.Order.objects.filter(is_deleted=False)
+    serializer_class = OrderReadSerializer
 
 
 class GuaranteeViewSet(viewsets.ModelViewSet):
-    queryset = models.Guarantee.objects.all()
-    serializer_class = GuaranteeSerializer
+    queryset = models.Guarantee.objects.filter(is_deleted=False)
+    serializer_class = GuaranteeReadSerializer
