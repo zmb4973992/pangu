@@ -27,6 +27,8 @@ router.register(r'contact', views.ContactViewSet)
 router.register(r'vendor', views.VendorViewSet)
 router.register(r'order', views.OrderViewSet)
 router.register(r'guarantee', views.GuaranteeViewSet)
+router.register(r'test', views.TestViewSet)
+router.register(r'order_to_guarantee', views.OrderToGuaranteeViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

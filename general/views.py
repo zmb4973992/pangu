@@ -17,7 +17,8 @@ from general.models import UserInformation
 # 获取供应商清单，给choice使用，格式为[(1,'a'),(3,'b'),...]
 from general.myforms.search_contact import SearchContactForm
 from general.serializers import VendorReadSerializer, OrderReadSerializer, GuaranteeReadSerializer, \
-    ContactReadSerializer, ContactWriteSerializer, VendorWriteSerializer, OrderWriteSerializer, GuaranteeWriteSerializer
+    ContactReadSerializer, ContactWriteSerializer, VendorWriteSerializer, OrderWriteSerializer, \
+    GuaranteeWriteSerializer, Test1Serializer, OrderToGuaranteeSerializer
 
 
 def get_vendor_list():
@@ -268,7 +269,8 @@ class OrderViewSet(viewsets.ModelViewSet):
 
 class GuaranteeViewSet(viewsets.ModelViewSet):
     queryset = models.Guarantee.objects.filter(is_deleted=False)
-    serializer_class = GuaranteeReadSerializer
+
+    # serializer_class = GuaranteeReadSerializer
 
     def get_serializer_class(self):
         # 如果需要修改内容，全部用write序列化器，方便做验证、入库
@@ -278,3 +280,13 @@ class GuaranteeViewSet(viewsets.ModelViewSet):
         # 如果是查看内容，用read序列化器，优化显示外键字段，隐藏不需要显示的字段
         else:
             return GuaranteeReadSerializer
+
+
+class TestViewSet(viewsets.ModelViewSet):
+    queryset = models.Test1.objects.all()
+    serializer_class = Test1Serializer
+
+
+class OrderToGuaranteeViewSet(viewsets.ModelViewSet):
+    queryset = models.OrderToGuarantee.objects.filter(is_deleted=False)
+    serializer_class = OrderToGuaranteeSerializer

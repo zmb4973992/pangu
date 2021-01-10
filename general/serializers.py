@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
-from general.models import Vendor, Contact, Order, Guarantee
+from general.models import Vendor, Contact, Order, Guarantee, Test1, OrderToGuarantee
+from drf_writable_nested.serializers import WritableNestedModelSerializer
 
 
 # 普通序列化器
@@ -151,6 +152,12 @@ class VendorReadSerializer(serializers.ModelSerializer):
     contact_set = ContactShortSerializer(read_only=True, many=True)
 
 
+class Test1Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Test1
+        fields = '__all__'
+
+
 class VendorWriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vendor
@@ -159,7 +166,13 @@ class VendorWriteSerializer(serializers.ModelSerializer):
         # depth = 1
 
     # 查询多方的列表信息，用short序列化器
-    contact_set = ContactShortSerializer(read_only=True, many=True)
+    # contact_set = ContactShortSerializer(read_only=True, many=True)
+
+
+class OrderToGuaranteeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderToGuarantee
+        fields = '__all__'
 
 
 class GuaranteeReadSerializer(serializers.ModelSerializer):

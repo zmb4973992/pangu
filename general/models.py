@@ -163,3 +163,12 @@ class UserInformation(AbstractUser):
     class Meta:
         verbose_name = '网站用户信息'
         verbose_name_plural = verbose_name
+
+
+class Test1(models.Model):
+    field1 = models.CharField(max_length=20)
+
+
+class Test2(models.Model):
+    field1 = models.CharField(max_length=20, blank=True, null=True, default=None)
+    field2 = models.ManyToManyField(max_length=20, to=Test1)
