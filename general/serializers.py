@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
 from general.models import Vendor, Contact, Order, Guarantee, Test1, OrderToGuarantee
-from drf_writable_nested.serializers import WritableNestedModelSerializer
 
 
 # 普通序列化器
