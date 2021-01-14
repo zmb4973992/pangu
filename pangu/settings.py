@@ -38,11 +38,14 @@ INSTALLED_APPS = [
     'general',
     'crispy_forms',
     'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    # 后加的跨域中间件
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -162,3 +165,6 @@ REST_FRAMEWORK = {
 
 # 定义session存储方式，删了drf会有问题
 # SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
+
+
+CORS_ORIGIN_ALLOW_ALL = True
