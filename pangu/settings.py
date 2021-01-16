@@ -24,7 +24,7 @@ SECRET_KEY = '_k%te5u85p%2d=&7fy+0gu(2+fw*l@1pxfbdu=@i8wlld6#*$9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -167,4 +167,15 @@ REST_FRAMEWORK = {
 # SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
 
 
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]

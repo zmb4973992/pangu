@@ -79,7 +79,7 @@ class OrderWriteSerializer(serializers.ModelSerializer):
     # order表有外键contact字段，所以可以显示所有的联系人
     class Meta:
         model = Order
-        exclude = ['id', 'is_deleted', 'created_time', 'updated_time']
+        exclude = ['is_deleted', 'created_time', 'updated_time']
         # 自定义外键查询的深度
         # depth = 1
 
@@ -91,7 +91,7 @@ class ContactReadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Contact
-        exclude = ['id', 'created_time', 'updated_time', 'is_deleted']
+        exclude = ['created_time', 'updated_time', 'is_deleted']
 
         # 要想显示外键的全部信息，就要开启depth
         # depth = 1
@@ -137,13 +137,13 @@ class ContactWriteSerializer(serializers.ModelSerializer):
 class ContactShortSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contact
-        exclude = ['id', 'vendor', 'is_deleted', 'created_time', 'updated_time', 'last_reviser']
+        exclude = ['vendor', 'is_deleted', 'created_time', 'updated_time', 'last_reviser']
 
 
 class VendorReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vendor
-        exclude = ['is_deleted', 'id', 'created_time', 'updated_time']
+        exclude = ['is_deleted', 'created_time', 'updated_time']
         # 自定义外键查询的深度
         # depth = 1
 
@@ -177,7 +177,7 @@ class OrderToGuaranteeSerializer(serializers.ModelSerializer):
 class GuaranteeReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Guarantee
-        exclude = ['is_deleted', 'id', 'created_time', 'updated_time']
+        exclude = ['is_deleted', 'created_time', 'updated_time']
 
     order_test = serializers.SerializerMethodField()
 
